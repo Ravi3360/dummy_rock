@@ -23,6 +23,7 @@ class Module(models.Model):
         ('practical', 'Practical'),
     ]
     GRADE_CHOICES = [
+        ('7', 'Class 7'),
         ('8', 'Class 8'),
         ('9', 'Class 9'),
         ('10', 'Class 10'),
@@ -151,6 +152,7 @@ class GlossaryTerm(models.Model):
 class LearningPath(models.Model):
     """Structured curriculum per grade level"""
     GRADE_CHOICES = [
+        ('7', 'Class 7'),
         ('8', 'Class 8'),
         ('9', 'Class 9'),
         ('10', 'Class 10'),

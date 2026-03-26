@@ -4,20 +4,20 @@
    =================================================================== */
 
 :root {
-    --bg-primary: #fff0f5;
-    --bg-secondary: #fce4ec;
+    --bg-primary: #eaf4fd;
+    --bg-secondary: #d4eaf8;
     --bg-card: #ffffff;
-    --bg-hover: #fce8ef;
-    --border: #f4c6d4;
-    --border-glow: #e896b8;
-    --text-primary: #1a0812;
-    --text-secondary: #5a2d40;
-    --text-muted: #9e6070;
+    --bg-hover: #d4eaf8;
+    --border: #b3d4f0;
+    --border-glow: #9EC6F3;
+    --text-primary: #0d1f35;
+    --text-secondary: #2a5070;
+    --text-muted: #5a85a8;
     --accent-green: #00a854;
     --accent-orange: #e65c00;
     --accent-blue: #1565c0;
     --accent-purple: #7b1fa2;
-    --accent-pink: #e91e8c;
+    --accent-pink: #9EC6F3;
     --accent-red: #c62828;
     --accent-cyan: #007b83;
 }
@@ -39,7 +39,7 @@ body {
     position: sticky;
     top: 0;
     z-index: 200;
-    background: rgba(255, 240, 245, 0.96);
+    background: rgba(234, 244, 253, 0.96);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
     padding: 0 40px;
@@ -495,9 +495,11 @@ body {
 /* ─── Pricing ─── */
 .pricing-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 32px;
     align-items: start;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .pricing-card {

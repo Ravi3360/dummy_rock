@@ -48,7 +48,9 @@ def landing_page(request):
     else:
         form = SchoolInquiryForm()
 
-    modules = Module.objects.filter(is_published=True).order_by('order')[:7]
+    python_modules = Module.objects.filter(is_published=True, grade_level='7').order_by('order')
+    ai_modules = Module.objects.filter(is_published=True, grade_level='all').order_by('order')
+    modules = list(python_modules) + list(ai_modules)
     inquiry_count = SchoolInquiry.objects.count()
 
     return render(request, 'landing/index.html', {

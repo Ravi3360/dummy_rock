@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
+from django.db.models import Case, When, Value, IntegerField
 from modules.models import Module, Concept, GlossaryTerm, LearningPath, PracticalExercise
 
 
@@ -154,7 +155,18 @@ def home(request):
     if grade_filter and grade_filter != 'all':
         modules = Module.objects.filter(is_published=True, grade_level__in=[grade_filter, 'all']).order_by('order')
     else:
-        modules = Module.objects.filter(is_published=True).order_by('order')
+        grade_order = Case(
+            When(grade_level='7', then=Value(1)),
+            When(grade_level='8', then=Value(2)),
+            When(grade_level='9', then=Value(3)),
+            When(grade_level='10', then=Value(4)),
+            When(grade_level='11', then=Value(5)),
+            When(grade_level='12', then=Value(6)),
+            When(grade_level='all', then=Value(7)),
+            default=Value(8),
+            output_field=IntegerField(),
+        )
+        modules = Module.objects.filter(is_published=True).annotate(grade_order=grade_order).order_by('grade_order', 'order')
 
     concepts = Concept.objects.all()[:40]
     all_modules_count = Module.objects.filter(is_published=True).count()

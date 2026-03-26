@@ -293,8 +293,8 @@
                 <div class="stat-lbl">Modules</div>
             </div>
             <div class="stat-premium-card">
-                <div class="stat-val">{{ stats.simulations }}+</div>
-                <div class="stat-lbl">Simulations</div>
+                <div class="stat-val">1000+</div>
+                <div class="stat-lbl">Students</div>
             </div>
             <div class="stat-premium-card">
                 <div class="stat-val">{{ stats.labs }}</div>
@@ -313,6 +313,7 @@
 
         <div class="grade-selector">
             <a href="/" class="grade-option {% if not current_grade %}active{% endif %}">General</a>
+            <a href="/?grade=7" class="grade-option {% if current_grade == '7' %}active{% endif %}">Class 7</a>
             <a href="/?grade=8" class="grade-option {% if current_grade == '8' %}active{% endif %}">Class 8</a>
             <a href="/?grade=9" class="grade-option {% if current_grade == '9' %}active{% endif %}">Class 9</a>
             <a href="/?grade=10" class="grade-option {% if current_grade == '10' %}active{% endif %}">Class 10</a>
@@ -406,8 +407,8 @@
         <div class="stat-lbl">Modules</div>
     </div>
     <div class="stat-premium-card">
-        <div class="stat-val">{{ stats.simulations }}+</div>
-        <div class="stat-lbl">Simulations</div>
+        <div class="stat-val">1000+</div>
+        <div class="stat-lbl">Students</div>
     </div>
     <div class="stat-premium-card">
         <div class="stat-val">{{ stats.labs }}</div>
@@ -426,6 +427,7 @@
 
 <div class="grade-selector">
     <a href="/" class="grade-option {% if not current_grade %}active{% endif %}">General</a>
+    <a href="/?grade=7" class="grade-option {% if current_grade == '7' %}active{% endif %}">Class 7</a>
     <a href="/?grade=8" class="grade-option {% if current_grade == '8' %}active{% endif %}">Class 8</a>
     <a href="/?grade=9" class="grade-option {% if current_grade == '9' %}active{% endif %}">Class 9</a>
     <a href="/?grade=10" class="grade-option {% if current_grade == '10' %}active{% endif %}">Class 10</a>

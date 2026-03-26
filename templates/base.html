@@ -15,20 +15,20 @@
     <link rel="stylesheet" href="{% static 'css/enhanced.css' %}">
     <style>
         :root {
-            --bg-primary: #fff0f5;
-            --bg-secondary: #fce4ec;
+            --bg-primary: #eaf4fd;
+            --bg-secondary: #d4eaf8;
             --bg-card: #ffffff;
-            --bg-hover: #fce8ef;
-            --border: #f4c6d4;
-            --border-glow: #e896b8;
-            --text-primary: #1a0812;
-            --text-secondary: #5a2d40;
-            --text-muted: #9e6070;
+            --bg-hover: #d4eaf8;
+            --border: #b3d4f0;
+            --border-glow: #9EC6F3;
+            --text-primary: #0d1f35;
+            --text-secondary: #2a5070;
+            --text-muted: #5a85a8;
             --accent-green: #00a854;
             --accent-orange: #e65c00;
             --accent-blue: #1565c0;
             --accent-purple: #7b1fa2;
-            --accent-pink: #e91e8c;
+            --accent-pink: #9EC6F3;
             --accent-red: #c62828;
             --accent-cyan: #007b83;
             --sidebar-width: 240px;
@@ -720,6 +720,11 @@
             <a href="/attention/" class="nav-item {% block nav_attn %}{% endblock %}">
                 <span class="nav-icon">👁️</span> Attention Lab
             </a>
+            <div class="nav-label">Class 7 Python</div>
+            <a href="/python-editor/" class="nav-item {% block nav_python %}{% endblock %}">
+                <span class="nav-icon">🐍</span> Python Editor
+            </a>
+
             <div class="nav-label">Junior Labs (8-10)</div>
             <a href="/logic-gates/" class="nav-item {% block nav_logic %}{% endblock %}">
                 <span class="nav-icon">🔌</span> Logic Gates
@@ -742,9 +747,6 @@
             {% endif %}
 
             <div class="nav-label">For Students</div>
-            <a href="/python-editor/" class="nav-item {% block nav_python %}{% endblock %}">
-                <span class="nav-icon">🐍</span> Python Editor
-            </a>
             <a href="/learning-paths/" class="nav-item">
                 <span class="nav-icon">🗺️</span> Learning Paths
             </a>
