@@ -214,7 +214,7 @@ to { opacity: 1; transform: translateX(0); }
     <p style="color:var(--text-secondary); max-width:600px; margin:0 auto 24px;">The explorer helps you find
         "Cross-Curricular" links. For example, learning about <strong>Probability</strong> in Math module directly helps
         you in <strong>Machine Learning</strong>.</p>
-    <a href="/learning-paths/" class="btn btn-primary" style="padding:14px 28px;">View Guided Paths →</a>
+    <a href="/dashboard/learning-paths/" class="btn btn-primary" style="padding:14px 28px;">View Guided Paths →</a>
 </div>
 {% endblock %}
 
@@ -237,7 +237,7 @@ to { opacity: 1; transform: translateX(0); }
         modules.forEach(m => {
             const [slug, mtitle, icon] = m.split(',');
             const link = document.createElement('a');
-            link.href = `/learn/${slug}/`;
+            link.href = `/dashboard/learn/${slug}/`;
             link.className = 'module-strip';
             link.innerHTML = `<span>${icon || '📚'}</span> <span>${mtitle}</span>`;
             list.appendChild(link);

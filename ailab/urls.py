@@ -11,7 +11,7 @@ urlpatterns = [
     path('login/', user_views.login_page, name='login'),
     path('register/', user_views.register_page, name='register'),
     path('logout/', user_views.logout_page, name='logout'),
-    path('welcome/', include('landing.urls')),
+    path('', include('landing.urls')),
     path('school/', include('school.urls')),
     path('api/auth/', include('users.urls')),
     path('api/modules/', include('modules.urls')),
@@ -19,6 +19,6 @@ urlpatterns = [
     path('api/ai/', include('ai_service.urls')),
     path('api/gamification/', include('gamification.urls')),
     path('api/social/', include('social.urls')),
-    path('', include('core.urls')),
+    path('dashboard/', include('core.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
   + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

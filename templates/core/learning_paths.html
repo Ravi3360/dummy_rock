@@ -105,7 +105,7 @@ transform: translateY(-1px); }
             <div class="path-modules-label">Modules in this path</div>
             <div class="path-modules-list">
                 {% for module in path.modules.all %}
-                <a href="/learn/{{ module.slug }}/" class="path-mod-chip">
+                <a href="/dashboard/learn/{{ module.slug }}/" class="path-mod-chip">
                     <span class="mod-icon">{{ module.icon }}</span>
                     {{ module.title }}
                 </a>
@@ -117,7 +117,7 @@ transform: translateY(-1px); }
             <div class="path-actions">
                 {% with first_mod=path.modules.first %}
                 {% if first_mod %}
-                <a href="/learn/{{ first_mod.slug }}/" class="btn btn-primary">Start This Path →</a>
+                <a href="/dashboard/learn/{{ first_mod.slug }}/" class="btn btn-primary">Start This Path →</a>
                 {% endif %}
                 {% endwith %}
                 <a href="/?grade={{ path.grade }}" class="btn btn-secondary">Browse Class {{ path.grade }} Modules</a>

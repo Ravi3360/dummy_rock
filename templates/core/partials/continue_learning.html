@@ -7,6 +7,6 @@
     <div style="background:var(--bg-secondary);border-radius:4px;height:6px;overflow:hidden;margin-bottom:16px;">
         <div style="height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent-green),var(--accent-blue));width:{{ last_progress.score|default:20 }}%;"></div>
     </div>
-    <a href="/learn/{{ last_progress.module.slug }}/" class="btn btn-green" style="font-size:13px;padding:8px 18px;">Resume Module →</a>
+    <a href="/dashboard/learn/{{ last_progress.module.slug }}/" class="btn btn-green" style="font-size:13px;padding:8px 18px;">Resume Module →</a>
 </div>
 {% endif %}

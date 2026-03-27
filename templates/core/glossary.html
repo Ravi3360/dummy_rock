@@ -104,9 +104,9 @@ font-size: 14px; color: var(--text-secondary); line-height: 1.5;
 </form>
 
 <div class="alpha-bar">
-    <a href="/glossary/" class="alpha-btn {% if not current_letter %}active{% endif %}">All</a>
+    <a href="/dashboard/glossary/" class="alpha-btn {% if not current_letter %}active{% endif %}">All</a>
     {% for char in alphabet %}
-    <a href="/glossary/?letter={{ char }}" class="alpha-btn {% if current_letter == char %}active{% endif %}">{{ char }}</a>
+    <a href="/dashboard/glossary/?letter={{ char }}" class="alpha-btn {% if current_letter == char %}active{% endif %}">{{ char }}</a>
     {% endfor %}
 </div>
 

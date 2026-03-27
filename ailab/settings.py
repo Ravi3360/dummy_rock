@@ -55,12 +55,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'school.middleware.SchoolBrandingMiddleware',
+    'school.middleware.SubscriptionMiddleware',
 ]
 
 ROOT_URLCONF = 'ailab.urls'
 
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/dashboard/'
 
 TEMPLATES = [
     {

@@ -40,11 +40,14 @@ FAQ_ITEMS = [
 
 
 def landing_page(request):
+    if request.user.is_authenticated:
+        return redirect('/dashboard/')
+
     if request.method == 'POST':
         form = SchoolInquiryForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/welcome/thank-you/')
+            return redirect('/thank-you/')
     else:
         form = SchoolInquiryForm()
 

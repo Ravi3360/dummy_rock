@@ -12,11 +12,36 @@
 </head>
 <body>
 
+{% if request.GET.subscription == 'expired' %}
+<div id="sub-expired-banner" style="
+    background:linear-gradient(90deg,#c62828,#b71c1c);
+    color:#fff;text-align:center;padding:14px 20px;
+    font-size:14px;font-weight:600;position:relative;">
+  🔒 Your subscription has expired and your account has been logged out.
+  Please renew below to regain access.
+  &nbsp;&nbsp;
+  <a href="#pricing" style="color:#fff;text-decoration:underline;font-weight:800;">View Plans →</a>
+  <span onclick="this.parentElement.style.display='none';"
+        style="cursor:pointer;position:absolute;right:16px;top:50%;transform:translateY(-50%);opacity:0.8;font-size:18px;">✕</span>
+</div>
+<script>
+  // Auto-scroll to pricing if redirected here due to expiry
+  window.addEventListener('DOMContentLoaded', function(){
+    if(window.location.search.includes('subscription=expired')){
+      setTimeout(function(){
+        var el = document.getElementById('pricing');
+        if(el) el.scrollIntoView({behavior:'smooth'});
+      }, 600);
+    }
+  });
+</script>
+{% endif %}
+
 <!-- ═══════════════════════════════════════════════
      TOP NAV
 ═══════════════════════════════════════════════ -->
 <nav class="landing-nav">
-    <a href="/welcome/" class="nav-logo">
+    <a href="/" class="nav-logo">
         <div class="nav-logo-icon">🧠</div>
         AI Lab
     </a>
@@ -316,7 +341,7 @@
                 {% for message in messages %}{{ message }}{% endfor %}
             </div>
             {% endif %}
-            <form method="POST" action="/welcome/#inquiry">
+            <form method="POST" action="/#inquiry">
                 {% csrf_token %}
                 <div class="form-grid">
                     <div class="form-group">

@@ -123,11 +123,12 @@ class LogoutView(APIView):
 
 def login_page(request):
     """HTML login page — authenticates via Django session so template views work."""
-    next_url = request.GET.get('next') or request.POST.get('next') or '/'
+    next_url = request.GET.get('next') or request.POST.get('next') or '/dashboard/'
     if request.user.is_authenticated:
         return redirect(next_url)
 
     error = None
+    sub_expired = False
     if request.method == 'POST':
         email = request.POST.get('email', '').strip()
         password = request.POST.get('password', '')
@@ -137,18 +138,29 @@ def login_page(request):
         except User.DoesNotExist:
             user = None
 
+        sub_expired = False
         if user is not None:
-            login(request, user)
-            return redirect(next_url)
-        error = 'Invalid email or password.'
+            if user.subscription_status == 'expired':
+                error = 'Your subscription has expired. Please renew your plan to log in again.'
+                sub_expired = True
+            else:
+                login(request, user)
+                return redirect(next_url)
+        else:
+            error = 'Invalid email or password.'
+            sub_expired = False
 
-    return render(request, 'users/login.html', {'next': next_url, 'error': error})
+    return render(request, 'users/login.html', {
+        'next': next_url,
+        'error': error,
+        'sub_expired': sub_expired,
+    })
 
 
 def register_page(request):
     """HTML registration page — creates account and logs in via Django session."""
     if request.user.is_authenticated:
-        return redirect('/')
+        return redirect('/dashboard/')
 
     error = None
     if request.method == 'POST':
@@ -170,7 +182,7 @@ def register_page(request):
         else:
             user = User.objects.create_user(username=username, email=email, password=password)
             login(request, user)
-            return redirect('/')
+            return redirect('/dashboard/')
 
     return render(request, 'users/register.html', {'error': error})
 

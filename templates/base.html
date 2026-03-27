@@ -649,6 +649,101 @@
 </head>
 
 <body>
+
+{% if request.subscription_status == 'warning' or request.subscription_status == 'grace' %}
+<!-- ── Subscription Renewal Popup ───────────────────────────────── -->
+<div id="sub-renewal-overlay" style="
+    position:fixed;inset:0;background:rgba(0,0,0,0.65);
+    z-index:9999;display:flex;align-items:center;justify-content:center;
+    backdrop-filter:blur(4px);">
+  <div style="
+      background:#fff;border-radius:24px;padding:40px 36px;max-width:460px;
+      width:90%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,0.35);
+      position:relative;">
+    <!-- Icon -->
+    <div style="font-size:52px;margin-bottom:16px;">
+      {% if request.subscription_status == 'grace' %}⚠️{% else %}🔔{% endif %}
+    </div>
+    <!-- Title -->
+    <h2 style="font-size:22px;font-weight:800;color:#0d1f35;margin-bottom:10px;">
+      {% if request.subscription_status == 'grace' %}
+        Subscription Expired — Grace Period
+      {% else %}
+        Your Subscription is Expiring Soon
+      {% endif %}
+    </h2>
+    <!-- Body -->
+    <p style="font-size:15px;color:#2a5070;line-height:1.6;margin-bottom:24px;">
+      {% if request.subscription_status == 'grace' %}
+        Your subscription ended
+        <strong>{{ request.subscription_days_remaining|add:"0" }} day{{ request.subscription_days_remaining|add:"0"|pluralize }}</strong>
+        ago. You are currently in the <strong>grace period</strong>.
+        Dashboard access will be <strong style="color:#c62828;">locked permanently</strong>
+        in <strong>{{ request.subscription_days_remaining|add:"2"|floatformat:"0" }} more day{{ request.subscription_days_remaining|add:"2"|floatformat:"0"|pluralize }}</strong>.
+        Please renew now to avoid interruption.
+      {% else %}
+        Your subscription expires in
+        <strong>{{ request.subscription_days_remaining }} day{{ request.subscription_days_remaining|pluralize }}</strong>.
+        After expiry you will have a 2-day grace period, then dashboard access
+        will be <strong style="color:#c62828;">locked</strong> until you renew.
+      {% endif %}
+    </p>
+    <!-- CTA -->
+    <a href="/#pricing" style="
+        display:inline-block;background:#00a854;color:#fff;font-weight:700;
+        font-size:15px;padding:14px 32px;border-radius:12px;
+        text-decoration:none;margin-bottom:12px;width:100%;">
+      🔄 Renew Subscription Now
+    </a>
+    {% if request.subscription_status == 'warning' %}
+    <br>
+    <button onclick="document.getElementById('sub-renewal-overlay').style.display='none';"
+        style="background:none;border:none;color:#5a85a8;font-size:13px;
+               cursor:pointer;padding:8px;margin-top:4px;">
+      Remind me later
+    </button>
+    {% endif %}
+  </div>
+</div>
+
+<!-- ── Sticky Warning Banner (visible after popup is dismissed) ─── -->
+{% if request.subscription_status == 'warning' %}
+<div id="sub-warning-banner" style="
+    position:sticky;top:0;z-index:1000;
+    background:linear-gradient(90deg,#e65c00,#ff8c00);
+    color:#fff;text-align:center;padding:10px 20px;
+    font-size:13px;font-weight:600;display:none;">
+  ⚠️ Your subscription expires in <strong>{{ request.subscription_days_remaining }} day{{ request.subscription_days_remaining|pluralize }}</strong>.
+  &nbsp;
+  <a href="/#pricing" style="color:#fff;text-decoration:underline;">Renew now →</a>
+  &nbsp;&nbsp;
+  <span onclick="this.parentElement.style.display='none';"
+        style="cursor:pointer;opacity:0.7;float:right;margin-right:8px;">✕</span>
+</div>
+<script>
+  document.getElementById('sub-renewal-overlay').addEventListener('click', function(e){
+    if(e.target === this){
+      this.style.display='none';
+      document.getElementById('sub-warning-banner').style.display='block';
+    }
+  });
+</script>
+{% endif %}
+
+{% if request.subscription_status == 'grace' %}
+<div style="
+    position:sticky;top:0;z-index:1000;
+    background:linear-gradient(90deg,#c62828,#e53935);
+    color:#fff;text-align:center;padding:10px 20px;
+    font-size:13px;font-weight:700;">
+  ⛔ GRACE PERIOD ACTIVE — Dashboard locks soon.
+  &nbsp;
+  <a href="/#pricing" style="color:#fff;text-decoration:underline;">Renew immediately →</a>
+</div>
+{% endif %}
+{% endif %}
+<!-- ── End Subscription Renewal Popup ──────────────────────────── -->
+
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-logo">
@@ -671,71 +766,71 @@
             {% endif %}
         </div>
         <nav class="sidebar-nav">
-            <a href="/" class="nav-item">
+            <a href="/dashboard/" class="nav-item">
                 <span class="nav-icon">🏠</span> Home
             </a>
 
             <div class="nav-label">Modules</div>
-            <a href="/learn/ai-basics/" class="nav-item">
+            <a href="/dashboard/learn/ai-basics/" class="nav-item">
                 <span class="nav-icon">🟢</span> AI Basics
             </a>
-            <a href="/learn/machine-learning-deep-dive/" class="nav-item">
+            <a href="/dashboard/learn/machine-learning-deep-dive/" class="nav-item">
                 <span class="nav-icon">🟡</span> Machine Learning
             </a>
-            <a href="/learn/deep-learning-lab/" class="nav-item">
+            <a href="/dashboard/learn/deep-learning-lab/" class="nav-item">
                 <span class="nav-icon">🔵</span> Deep Learning
             </a>
-            <a href="/learn/generative-ai/" class="nav-item">
+            <a href="/dashboard/learn/generative-ai/" class="nav-item">
                 <span class="nav-icon">🟣</span> Generative AI
             </a>
-            <a href="/learn/llm-systems/" class="nav-item">
+            <a href="/dashboard/learn/llm-systems/" class="nav-item">
                 <span class="nav-icon">🔴</span> LLM Systems
             </a>
-            <a href="/learn/agentic-ai/" class="nav-item">
+            <a href="/dashboard/learn/agentic-ai/" class="nav-item">
                 <span class="nav-icon">🟠</span> Agentic AI
             </a>
-            <a href="/learn/ai-playground/" class="nav-item">
+            <a href="/dashboard/learn/ai-playground/" class="nav-item">
                 <span class="nav-icon">🧪</span> AI Playground
             </a>
 
             <div class="nav-label">Labs & Labs</div>
-            <a href="/neural-network/" class="nav-item {% block nav_nn %}{% endblock %}">
+            <a href="/dashboard/neural-network/" class="nav-item {% block nav_nn %}{% endblock %}">
                 <span class="nav-icon">⚡</span> Neural Network Lab
             </a>
-            <a href="/rag-visualizer/" class="nav-item {% block nav_rag %}{% endblock %}">
+            <a href="/dashboard/rag-visualizer/" class="nav-item {% block nav_rag %}{% endblock %}">
                 <span class="nav-icon">🔍</span> RAG Visualizer
             </a>
-            <a href="/agent-visualizer/" class="nav-item {% block nav_agent %}{% endblock %}">
+            <a href="/dashboard/agent-visualizer/" class="nav-item {% block nav_agent %}{% endblock %}">
                 <span class="nav-icon">🤖</span> Agent Visualizer
             </a>
-            <a href="/llm-params/" class="nav-item {% block nav_llm %}{% endblock %}">
+            <a href="/dashboard/llm-params/" class="nav-item {% block nav_llm %}{% endblock %}">
                 <span class="nav-icon">🎛️</span> LLM Params Lab
             </a>
-            <a href="/kmeans/" class="nav-item {% block nav_kmeans %}{% endblock %}">
+            <a href="/dashboard/kmeans/" class="nav-item {% block nav_kmeans %}{% endblock %}">
                 <span class="nav-icon">🔵</span> K-Means Lab
             </a>
-            <a href="/decision-tree/" class="nav-item {% block nav_dt %}{% endblock %}">
+            <a href="/dashboard/decision-tree/" class="nav-item {% block nav_dt %}{% endblock %}">
                 <span class="nav-icon">🌳</span> Decision Tree Lab
             </a>
-            <a href="/attention/" class="nav-item {% block nav_attn %}{% endblock %}">
+            <a href="/dashboard/attention/" class="nav-item {% block nav_attn %}{% endblock %}">
                 <span class="nav-icon">👁️</span> Attention Lab
             </a>
             <div class="nav-label">Class 7 Python</div>
-            <a href="/python-editor/" class="nav-item {% block nav_python %}{% endblock %}">
+            <a href="/dashboard/python-editor/" class="nav-item {% block nav_python %}{% endblock %}">
                 <span class="nav-icon">🐍</span> Python Editor
             </a>
 
             <div class="nav-label">Junior Labs (8-10)</div>
-            <a href="/logic-gates/" class="nav-item {% block nav_logic %}{% endblock %}">
+            <a href="/dashboard/logic-gates/" class="nav-item {% block nav_logic %}{% endblock %}">
                 <span class="nav-icon">🔌</span> Logic Gates
             </a>
-            <a href="/data-sorting/" class="nav-item {% block nav_sort %}{% endblock %}">
+            <a href="/dashboard/data-sorting/" class="nav-item {% block nav_sort %}{% endblock %}">
                 <span class="nav-icon">📊</span> Data Sorting
             </a>
-            <a href="/pattern-recognition/" class="nav-item {% block nav_pattern %}{% endblock %}">
+            <a href="/dashboard/pattern-recognition/" class="nav-item {% block nav_pattern %}{% endblock %}">
                 <span class="nav-icon">🧩</span> Patterns
             </a>
-            <a href="/ai-chat/" class="nav-item {% block nav_chat %}{% endblock %}">
+            <a href="/dashboard/ai-chat/" class="nav-item {% block nav_chat %}{% endblock %}">
                 <span class="nav-icon">💬</span> AI Assistant
             </a>
 
@@ -747,16 +842,16 @@
             {% endif %}
 
             <div class="nav-label">For Students</div>
-            <a href="/learning-paths/" class="nav-item">
+            <a href="/dashboard/learning-paths/" class="nav-item">
                 <span class="nav-icon">🗺️</span> Learning Paths
             </a>
-            <a href="/glossary/" class="nav-item">
+            <a href="/dashboard/glossary/" class="nav-item">
                 <span class="nav-icon">📖</span> Glossary
             </a>
-            <a href="/concept-explorer/" class="nav-item">
+            <a href="/dashboard/concept-explorer/" class="nav-item">
                 <span class="nav-icon">🔗</span> Concept Explorer
             </a>
-            <a href="/practice-zone/" class="nav-item">
+            <a href="/dashboard/practice-zone/" class="nav-item">
                 <span class="nav-icon">✏️</span> Practice Zone
             </a>
         </nav>
@@ -795,14 +890,21 @@
         // Auto-highlight active nav item based on current URL path
         (function () {
             const path = window.location.pathname;
+            let activeItem = null;
             document.querySelectorAll('.nav-item').forEach(function (el) {
                 const href = el.getAttribute('href');
-                if (href && href !== '/' && path.startsWith(href)) {
+                if (href && href !== '/dashboard/' && href !== '/' && path.startsWith(href)) {
                     el.classList.add('active');
-                } else if (href === '/' && path === '/') {
+                    activeItem = el;
+                } else if ((href === '/dashboard/' || href === '/') && path === '/dashboard/') {
                     el.classList.add('active');
+                    activeItem = el;
                 }
             });
+            // Scroll sidebar so the active item is visible
+            if (activeItem) {
+                activeItem.scrollIntoView({ block: 'center', behavior: 'instant' });
+            }
             // Auto-select grade from URL params
             const params = new URLSearchParams(window.location.search);
             const grade = params.get('grade');

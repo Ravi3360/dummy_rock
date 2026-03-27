@@ -52,6 +52,30 @@ class School(models.Model):
             return False
         return self.subscription_end >= timezone.now().date()
 
+    @property
+    def subscription_days_remaining(self):
+        """Days until expiry. Negative = already expired. None = no expiry set."""
+        if self.subscription_tier == 'free' or self.subscription_end is None:
+            return None
+        return (self.subscription_end - timezone.now().date()).days
+
+    @property
+    def subscription_status(self):
+        """Same status logic as CustomUser.subscription_status."""
+        from users.models import SUBSCRIPTION_WARNING_DAYS, SUBSCRIPTION_GRACE_DAYS
+        if self.subscription_tier == 'free':
+            return 'active'
+        days = self.subscription_days_remaining
+        if days is None:
+            return 'active'
+        if days > SUBSCRIPTION_WARNING_DAYS:
+            return 'active'
+        if days >= 0:
+            return 'warning'
+        if days >= -SUBSCRIPTION_GRACE_DAYS:
+            return 'grace'
+        return 'expired'
+
 
 class Classroom(models.Model):
     school = models.ForeignKey(School, on_delete=models.CASCADE, related_name='classrooms')
